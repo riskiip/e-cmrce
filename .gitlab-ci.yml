@@ -1,0 +1,23 @@
+stages:
+  - build_test
+  - deploy_test
+
+
+build_test:
+  stage: build_test
+  script:
+    - npm install
+    - CURRENT_COMMIT_SHA=$(git rev-parse HEAD)
+    - docker build -t $TIC_DOCKER_HOST/$TIC_DOCKER_USERNAME/$APP_NAME_DEMO:test-$CURRENT_COMMIT_SHA .
+    - docker login -u $TIC_DOCKER_USERNAME -p $TIC_DOCKER_PWD $TIC_DOCKER_HOST
+    - docker push $TIC_DOCKER_HOST/$TIC_DOCKER_USERNAME/$APP_NAME_DEMO:test-$CURRENT_COMMIT_SHA
+  only:
+    - develop
+
+deploy_test:
+  stage: deploy_test
+  script:
+    - CURRENT_COMMIT_SHA=$(git rev-parse HEAD)
+    - caprover deploy --appToken $APP_TOKEN_DEMO --caproverUrl $TIC_CAPROVER_URL --imageName $TIC_DOCKER_HOST/$TIC_DOCKER_USERNAME/$APP_NAME_DEMO:test-$CURRENT_COMMIT_SHA --appName $APP_NAME_DEMO
+  only:
+    - develop

@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Rejistu Empreza</h5>
+          <form class="form-signin" (ngSubmit)="signUp()" #signUpForm="ngForm">
+            <div class="form-label-group">
+              <input type="text" id="inputName" class="form-control" placeholder="Naran Empreza" required autofocus [(ngModel)]="name" name="name">
+              <label for="inputName"></label>
+            </div>
+
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" class="form-control" placeholder="Email Empreza" required autofocus [(ngModel)]="email" name="email">
+              <label for="inputEmail"></label>
+            </div>
+
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required [(ngModel)]="password" name="password">
+              <label for="inputPassword"></label>
+            </div>
+
+            <div class="form-label-group">
+              <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Konfirma Password" required [(ngModel)]="confirmPassword" name="confirmPassword">
+              <label for="inputConfirmPassword"></label>
+            </div>
+
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
+              <label class="form-check-label" for="rememberPasswordCheck">
+                Salva password
+              </label>
+            </div>
+            
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" [disabled]="!signUpForm.valid">Sign Up</button>
+            <hr class="my-4">
+            <p class="text-center mt-3">Rejistu ona? <a [routerLink]="['/login']">Login Agora</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
