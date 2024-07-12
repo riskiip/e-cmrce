@@ -108,6 +108,11 @@ export class PublisidadeComponent {
       return;
     }
 
+    // Validasi form tidak boleh kosong
+    // if (this.formData.kategoria.length === 0) {
+    //   alert('Kategoria harus terisi');
+    // }
+
     const formData: FormData = new FormData();
     formData.append("titlu", this.formData.titlu);
     formData.append("telemovel", this.formData.telemovel);
@@ -124,7 +129,7 @@ export class PublisidadeComponent {
     formData.append("subkategoria", this.formData.subkategoria);
 
     // Ensure price is a string
-    formData.append("price", this.formData.price);
+    formData.append("presu", this.formData.price);
 
     this.productService.postData(formData).subscribe({
       next: (response) => {
