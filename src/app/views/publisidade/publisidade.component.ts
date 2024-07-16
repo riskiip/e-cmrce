@@ -1,13 +1,20 @@
-import { Component } from "@angular/core";
-import { ProductService } from "../home/product.service";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { forkJoin, take } from "rxjs";
+import {
+  Kategoria,
+  Munisipiu,
+  Postu,
+  Subkategoria,
+} from "../../models/publisidadeDto";
+import { ProductService } from "../home/product.service";
 
 @Component({
   selector: "app-publisidade",
   templateUrl: "./publisidade.component.html",
   styleUrls: ["./publisidade.component.scss"],
 })
-export class PublisidadeComponent {
+export class PublisidadeComponent implements OnInit {
   // Construct formData object
   formData: any = {
     titlu: "",
@@ -22,26 +29,45 @@ export class PublisidadeComponent {
   };
 
   // Construct categories
-  categories: any[] = [
-    { text: "Kategoria 1", value: "1" },
-    { text: "Kategoria 2", value: "2" },
+  categories: Kategoria[] = [
+    {
+      id: 0,
+      naran: "",
+    },
   ];
 
   // Construct subcategories
-  subCategories: any[] = [];
+  subCategories: Subkategoria[] = [
+    {
+      id: 0,
+      naran: "",
+      kategoria: 0,
+    },
+  ];
+
+  filterSubCategory: any;
 
   // Constrcuct locations
-  locations: any[] = [
-    { text: "Aileu", value: "1" },
-    { text: "Ainaru", value: "2" },
-    { text: "Baucau", value: "3" },
+  locations: Munisipiu[] = [
+    {
+      id: 0,
+      naran: "",
+    },
   ];
+
+  filterMunisipiu: any;
 
   // Construct sublocations
   subLocations: any[] = [];
 
   // Construct post-administrative
-  postoadministrativu: any[] = [];
+  postoadministrativu: Postu[] = [
+    {
+      id: 0,
+      naran: "",
+      munisipiu: 0,
+    },
+  ];
 
   // Flag for show subcategory and postadministrative
   showSubkategori = false;
@@ -52,6 +78,22 @@ export class PublisidadeComponent {
 
   constructor(private productService: ProductService, private router: Router) {}
 
+  ngOnInit(): void {
+    forkJoin([
+      this.productService.getKategoria(),
+      this.productService.getSubKategoria(),
+      this.productService.getMunisipiu(),
+      this.productService.getPostu(),
+    ])
+      .pipe(take(1))
+      .subscribe((response) => {
+        this.categories = response[0].results;
+        this.subCategories = response[1].results;
+        this.locations = response[2].results;
+        this.postoadministrativu = response[3].results;
+      });
+  }
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.fileName = file.name;
@@ -60,30 +102,18 @@ export class PublisidadeComponent {
 
   onKategoriChange(event: any) {
     const selectedKategoria = event.target.value;
-    if (selectedKategoria === "1") {
-      this.subCategories = [
-        { text: "Subkategoria 1-1", value: "1" },
-        { text: "Subkategoria 1-2", value: "2" },
-      ];
-    } else if (selectedKategoria === "2") {
-      this.subCategories = [{ text: "Subkategoria 2-1", value: "3" }];
-    }
-    this.showSubkategori = this.subCategories.length > 0;
+    this.filterSubCategory = this.subCategories.filter(
+      (data) => data.kategoria === parseInt(selectedKategoria)
+    );
+    this.showSubkategori = this.filterSubCategory.length > 0;
   }
 
   onLocationChange(event: any) {
     const selectedLocation = event.target.value;
-    if (selectedLocation === "1") {
-      this.postoadministrativu = [
-        { text: "Postoadministrativu 1-1", value: "1" },
-        { text: "Postoadministrativu 1-2", value: "2" },
-      ];
-    } else if (selectedLocation === "2") {
-      this.postoadministrativu = [
-        { text: "Postoadministrativu 2-1", value: "3" },
-      ];
-    }
-    this.showPostoadministrativu = this.postoadministrativu.length > 0;
+    this.filterMunisipiu = this.postoadministrativu.filter(
+      (data) => data.munisipiu === parseInt(selectedLocation)
+    );
+    this.showPostoadministrativu = this.filterMunisipiu.length > 0;
   }
 
   postDataToAPI() {
@@ -108,11 +138,6 @@ export class PublisidadeComponent {
       return;
     }
 
-    // Validasi form tidak boleh kosong
-    // if (this.formData.kategoria.length === 0) {
-    //   alert('Kategoria harus terisi');
-    // }
-
     const formData: FormData = new FormData();
     formData.append("titlu", this.formData.titlu);
     formData.append("telemovel", this.formData.telemovel);
@@ -123,10 +148,10 @@ export class PublisidadeComponent {
     }
 
     formData.append("deskrisaun", deskrisaun);
-    formData.append("kategoria", this.formData.kategoria);
-    formData.append("munisipiu", this.formData.munisipiu);
-    formData.append("postu", this.formData.postoAdministrativu);
-    formData.append("subkategoria", this.formData.subkategoria);
+    formData.append("kategoria_id", this.formData.kategoria);
+    formData.append("munisipiu_id", this.formData.munisipiu);
+    formData.append("postu_id", this.formData.postoAdministrativu);
+    formData.append("subkategoria_id", this.formData.subkategoria);
 
     // Ensure price is a string
     formData.append("presu", this.formData.price);

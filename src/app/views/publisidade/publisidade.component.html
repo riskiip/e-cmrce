@@ -58,9 +58,9 @@
                   <option value="">Hili Munisipiu</option>
                   <option
                     *ngFor="let location of locations"
-                    [value]="location.value"
+                    [value]="location.id"
                   >
-                    {{ location.text }}
+                    {{ location.naran }}
                   </option>
                 </select>
               </div>
@@ -77,10 +77,10 @@
                   [(ngModel)]="formData.postoAdministrativu"
                 >
                   <option
-                    *ngFor="let postoadministrativu of postoadministrativu"
-                    [value]="postoadministrativu.value"
+                    *ngFor="let postoadministrativu of filterMunisipiu"
+                    [value]="postoadministrativu.id"
                   >
-                    {{ postoadministrativu.text }}
+                    {{ postoadministrativu.naran }}
                   </option>
                 </select>
               </div>
@@ -103,11 +103,8 @@
               required
             >
               <option value="">Hili Kategoria</option>
-              <option
-                *ngFor="let kategori of categories"
-                [value]="kategori.value"
-              >
-                {{ kategori.text }}
+              <option *ngFor="let kategori of categories" [value]="kategori.id">
+                {{ kategori.naran }}
               </option>
             </select>
           </div>
@@ -124,10 +121,10 @@
               [(ngModel)]="formData.subkategoria"
             >
               <option
-                *ngFor="let subkategori of subCategories"
-                [value]="subkategori.value"
+                *ngFor="let subkategori of filterSubCategory"
+                [value]="subkategori.id"
               >
-                {{ subkategori.text }}
+                {{ subkategori.naran }}
               </option>
             </select>
           </div>
