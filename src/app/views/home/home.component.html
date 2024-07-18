@@ -368,6 +368,7 @@
             [routerLink]="['/item-detail']"
             [queryParams]="{ id: product.id }"
             class="product-link"
+            (click)="gotoDetailProduct(product)"
           >
             <div class="product-card">
               <div class="product-image">

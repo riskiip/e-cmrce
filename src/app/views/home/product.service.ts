@@ -1,14 +1,23 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
   private apiUrl = "https://backendecomerce.apps06.tic.gov.tl/api/vizitor";
+  productDetail = new Subject();
 
   constructor(private http: HttpClient) {}
+
+  sendDetailProduct(item: any) {
+    this.productDetail.next(item);
+  }
+
+  getDetailProduct(): Observable<any> {
+    return this.productDetail.asObservable();
+  }
 
   postData(data: FormData): Observable<any> {
     return this.http.post<any>(this.apiUrl + "/produtu/", data);

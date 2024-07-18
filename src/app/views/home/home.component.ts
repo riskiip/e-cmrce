@@ -3,6 +3,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from "@angular/core";
 import { Router } from "@angular/router";
 import { take } from "rxjs";
 import { ProdutuService } from "../../core/servises/produtu.service";
+import { ProductService } from "./product.service";
 
 @Component({
   selector: "app-home",
@@ -18,7 +19,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private productService: ProdutuService
+    private productService: ProdutuService,
+    private productDataService: ProductService
   ) {}
 
   ngOnInit(): void {
@@ -46,5 +48,9 @@ export class HomeComponent implements OnInit {
   navigateToItemDetail(itemId: number) {
     console.log(`Navigating to item detail for item with ID: ${itemId}`);
     this.router.navigate(["/item-detail"], { queryParams: { id: itemId } });
+  }
+
+  gotoDetailProduct(event: any) {
+    this.productDataService.sendDetailProduct(event);
   }
 }
