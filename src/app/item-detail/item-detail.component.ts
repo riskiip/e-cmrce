@@ -7,10 +7,14 @@ import { ProductService } from "../views/home/product.service";
   styleUrl: "./item-detail.component.scss",
 })
 export class ItemDetailComponent implements OnInit {
-  constructor(private productDataService: ProductService) {}
+  detailProductString!: any;
+  detailProductObj!: any;
+
+  constructor() {}
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    console.log(this.productDataService.getDetailProduct());
+    this.detailProductString = localStorage.getItem("detailProduct");
+    this.detailProductObj = JSON.parse(this.detailProductString);
   }
 }

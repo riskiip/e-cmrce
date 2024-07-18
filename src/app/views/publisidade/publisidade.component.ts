@@ -66,7 +66,11 @@ export class PublisidadeComponent implements OnInit {
     {
       id: 0,
       naran: "",
-      munisipiu: 0,
+      munisipiu: {
+        id: 0,
+        naran: "",
+      },
+      munisipiu_id: 0,
     },
   ];
 
@@ -112,7 +116,7 @@ export class PublisidadeComponent implements OnInit {
   onLocationChange(event: any) {
     const selectedLocation = event.target.value;
     this.filterMunisipiu = this.postoadministrativu.filter(
-      (data) => data.munisipiu === parseInt(selectedLocation)
+      (data) => data.munisipiu_id === parseInt(selectedLocation)
     );
     this.showPostoadministrativu = this.filterMunisipiu.length > 0;
   }

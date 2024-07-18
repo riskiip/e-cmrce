@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    localStorage.removeItem("detailProduct");
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
     }
@@ -46,11 +47,11 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToItemDetail(itemId: number) {
-    console.log(`Navigating to item detail for item with ID: ${itemId}`);
     this.router.navigate(["/item-detail"], { queryParams: { id: itemId } });
   }
 
   gotoDetailProduct(event: any) {
     this.productDataService.sendDetailProduct(event);
+    localStorage.setItem("detailProduct", JSON.stringify(event));
   }
 }

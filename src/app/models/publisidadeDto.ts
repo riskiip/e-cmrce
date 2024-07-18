@@ -17,5 +17,6 @@ export interface Munisipiu {
 export interface Postu {
   id: number;
   naran: string;
-  munisipiu: number;
+  munisipiu: Munisipiu;
+  munisipiu_id: number;
 }
