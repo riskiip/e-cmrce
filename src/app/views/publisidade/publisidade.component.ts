@@ -8,6 +8,7 @@ import {
   Subkategoria,
 } from "../../models/publisidadeDto";
 import { ProductService } from "../home/product.service";
+import dayjs from "dayjs";
 
 @Component({
   selector: "app-publisidade",
@@ -137,7 +138,6 @@ export class PublisidadeComponent implements OnInit {
       alert("Munisipiu should be a valid integer ID.");
       return;
     }
-
     const formData: FormData = new FormData();
     formData.append("titlu", this.formData.titlu);
     formData.append("telemovel", this.formData.telemovel);
@@ -146,7 +146,7 @@ export class PublisidadeComponent implements OnInit {
     if (this.formData.imagem) {
       formData.append("imagem", this.formData.imagem);
     }
-
+    formData.append("datapublika", dayjs().format("YYYY-MM-DD"));
     formData.append("deskrisaun", deskrisaun);
     formData.append("kategoria_id", this.formData.kategoria);
     formData.append("munisipiu_id", this.formData.munisipiu);
