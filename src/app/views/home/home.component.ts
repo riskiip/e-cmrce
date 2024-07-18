@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { take } from "rxjs";
 import { ProdutuService } from "../../core/servises/produtu.service";
 import { ProductService } from "./product.service";
+import { Product } from "../../models/productDto";
 
 @Component({
   selector: "app-home",
@@ -11,10 +12,54 @@ import { ProductService } from "./product.service";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  showCategory = false;
+
   onImageError($event: ErrorEvent) {
     throw new Error("Method not implemented.");
   }
-  products!: any;
+  products: Product[] = [
+    {
+      id: 0,
+      titlu: "",
+      presu: "",
+      datapublika: "",
+      telemovel: "",
+      status: "",
+      imagem: "",
+      deskrisaun: "",
+      kategoria: {
+        id: 0,
+        naran: "",
+      },
+      subkategoria: {
+        id: 0,
+        naran: "",
+        kategoria: {
+          id: 0,
+          naran: "",
+        },
+        kategoria_id: 0,
+      },
+      munisipiu: {
+        id: 0,
+        naran: "",
+      },
+      postu: {
+        id: 0,
+        naran: "",
+        munisipiu: {
+          id: 0,
+          naran: "",
+        },
+        munisipiu_id: 0,
+      },
+      kategoria_id: 0,
+      subkategoria_id: 0,
+      munisipiu_id: 0,
+      postu_id: 0,
+    },
+  ];
+  categoryProducts: any;
 
   constructor(
     private router: Router,
@@ -53,5 +98,18 @@ export class HomeComponent implements OnInit {
   gotoDetailProduct(event: any) {
     this.productDataService.sendDetailProduct(event);
     localStorage.setItem("detailProduct", JSON.stringify(event));
+  }
+
+  showHideCategory(event: any) {
+    this.showCategory = true;
+    this.categoryProducts = this.products.filter(
+      (data) => data.kategoria_id === event
+    );
+    console.log(this.categoryProducts);
+  }
+
+  showAllCategoryProduct() {
+    this.categoryProducts = [];
+    this.showCategory = false;
   }
 }

@@ -1,69 +1,68 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from './layout/layout.component';
-import { HomeComponent } from './views/home/home.component';
-import { LoginComponent } from './views/login/login.component';
-import { PublisidadeComponent } from './views/publisidade/publisidade.component';
-import { RejistuComponent } from './views/rejistu/rejistu.component';
-import { CompanypfeComponent } from './views/companypfe/companypfe.component';
-import { ForgotpssComponent } from './forgotpss/forgotpss.component';
-import { ItemDetailComponent } from './item-detail/item-detail.component';
-import { SearchResultComponent } from './search-result/search-result.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { LayoutComponent } from "./layout/layout.component";
+import { HomeComponent } from "./views/home/home.component";
+import { LoginComponent } from "./views/login/login.component";
+import { PublisidadeComponent } from "./views/publisidade/publisidade.component";
+import { RejistuComponent } from "./views/rejistu/rejistu.component";
+import { CompanypfeComponent } from "./views/companypfe/companypfe.component";
+import { ForgotpssComponent } from "./forgotpss/forgotpss.component";
+import { ItemDetailComponent } from "./item-detail/item-detail.component";
+import { SearchResultComponent } from "./search-result/search-result.component";
 // import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '',
-    pathMatch: 'full'
+    path: "",
+    redirectTo: "",
+    pathMatch: "full",
   },
-  
+
   // { path: 'login', component: LoginComponent },
   // { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
   {
-    path: '',
+    path: "",
     component: LayoutComponent,
     children: [
-    {
-      path: '',
-      component:HomeComponent
-    },
-    {
-      path: 'login',
-      component:LoginComponent
-    },
-    {
-      path: 'publisidade',
-      component:PublisidadeComponent
-    },
-    {
-      path: 'rejistu',
-      component:RejistuComponent 
-    },
-    {
-      path: 'companypfe',
-      component:CompanypfeComponent
-    },
       {
-      path: 'forgotpss',
-      component:ForgotpssComponent
+        path: "",
+        component: HomeComponent,
       },
-    {
-      path: 'item-detail',
-      component: ItemDetailComponent
-    },
-     {
-      path: 'search-result',
-        component: SearchResultComponent
-     },
-    ]
+      {
+        path: "login",
+        component: LoginComponent,
+      },
+      {
+        path: "publisidade",
+        component: PublisidadeComponent,
+      },
+      {
+        path: "rejistu",
+        component: RejistuComponent,
+      },
+      {
+        path: "companypfe",
+        component: CompanypfeComponent,
+      },
+      {
+        path: "forgotpss",
+        component: ForgotpssComponent,
+      },
+      {
+        path: "item-detail",
+        component: ItemDetailComponent,
+      },
+      {
+        path: "search-result",
+        component: SearchResultComponent,
+      },
+    ],
   },
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

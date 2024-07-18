@@ -42,7 +42,11 @@ export class PublisidadeComponent implements OnInit {
     {
       id: 0,
       naran: "",
-      kategoria: 0,
+      kategoria: {
+        id: 0,
+        naran: "",
+      },
+      kategoria_id: 0,
     },
   ];
 
@@ -108,7 +112,7 @@ export class PublisidadeComponent implements OnInit {
   onKategoriChange(event: any) {
     const selectedKategoria = event.target.value;
     this.filterSubCategory = this.subCategories.filter(
-      (data) => data.kategoria === parseInt(selectedKategoria)
+      (data) => data.kategoria_id === parseInt(selectedKategoria)
     );
     this.showSubkategori = this.filterSubCategory.length > 0;
   }

@@ -6,7 +6,8 @@ export interface Kategoria {
 export interface Subkategoria {
   id: number;
   naran: string;
-  kategoria: number;
+  kategoria: Kategoria;
+  kategoria_id: number;
 }
 
 export interface Munisipiu {
