@@ -12,8 +12,6 @@ import { Product } from "../../models/productDto";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  showCategory = false;
-
   onImageError($event: ErrorEvent) {
     throw new Error("Method not implemented.");
   }
@@ -70,6 +68,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.removeItem("detailProduct");
+    localStorage.removeItem("categorySelected");
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
     }
@@ -101,15 +100,18 @@ export class HomeComponent implements OnInit {
   }
 
   showHideCategory(event: any) {
-    this.showCategory = true;
+    this.router.navigate(["/subcategory"]);
     this.categoryProducts = this.products.filter(
       (data) => data.kategoria_id === event
+    );
+    localStorage.setItem(
+      "categorySelected",
+      JSON.stringify(this.categoryProducts)
     );
     console.log(this.categoryProducts);
   }
 
   showAllCategoryProduct() {
     this.categoryProducts = [];
-    this.showCategory = false;
   }
 }

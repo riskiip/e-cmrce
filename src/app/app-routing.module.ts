@@ -9,6 +9,7 @@ import { CompanypfeComponent } from "./views/companypfe/companypfe.component";
 import { ForgotpssComponent } from "./forgotpss/forgotpss.component";
 import { ItemDetailComponent } from "./item-detail/item-detail.component";
 import { SearchResultComponent } from "./search-result/search-result.component";
+import { SubcatgoryComponent } from "./views/subcatgory/subcatgory.component";
 // import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path: "search-result",
         component: SearchResultComponent,
+      },
+      {
+        path: "subcategory",
+        component: SubcatgoryComponent,
       },
     ],
   },
