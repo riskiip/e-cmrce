@@ -1,36 +1,67 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Sign In</h5>
-                    <!-- Form Sign In -->
-                    <form class="form-signin" (ngSubmit)="signIn(email, password)">
-                        <!-- Input email and password -->
-                        <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus [(ngModel)]="email" name="email">
-                            <label for="inputEmail"></label>
-                        </div>
-                        <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required [(ngModel)]="password" name="password">
-                            <label for="inputPassword"></label>
-                        </div>
-                        <!-- Forgot password -->
-                        <div class="form-check mb-3 d-flex align-items-center">
-                            <label class="form-check-label ml-auto" for="rememberPasswordCheck">
-                                <a href="/forgotpss">Forgot Password?</a>
-                            </label>
-                        </div>
-                        <!-- Sign in button -->
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-                        <hr class="my-4">                       
-                        <button class="btn btn-lg btn-google btn-block text-uppercase" type="button" (click)="googleSignIn()"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-                        <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="button" (click)="facebookSignIn()"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
-                        <hr class="my-4">
-                        <p class="text-center mt-3">Seidauk rejistu? <a href="/rejistu">Rejistu Agora</a></p>
-                      </form>                      
-                  </div>
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Sign In</h5>
+          <!-- Form Sign In -->
+          <form class="form-signin" (ngSubmit)="signIn()">
+            <!-- Input email and password -->
+            <div class="form-label-group">
+              <input
+                type="email"
+                id="inputEmail"
+                class="form-control"
+                placeholder="Email address"
+                required
+                autofocus
+                [(ngModel)]="email"
+                name="email"
+              />
+              <label for="inputEmail"></label>
             </div>
+            <div class="form-label-group">
+              <input
+                type="password"
+                id="inputPassword"
+                class="form-control"
+                placeholder="Password"
+                required
+                [(ngModel)]="password"
+                name="password"
+              />
+              <label for="inputPassword"></label>
+            </div>
+
+            <!-- Sign in button -->
+            <button
+              class="btn btn-lg btn-primary btn-block text-uppercase"
+              type="submit"
+            >
+              Sign in
+            </button>
+            <hr class="my-4" />
+            <button
+              class="btn btn-lg btn-google btn-block text-uppercase"
+              type="button"
+              (click)="googleSignIn()"
+            >
+              <i class="fab fa-google mr-2"></i> Sign in with Google
+            </button>
+            <button
+              class="btn btn-lg btn-facebook btn-block text-uppercase"
+              type="button"
+              (click)="facebookSignIn()"
+            >
+              <i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
+            </button>
+            <hr class="my-4" />
+            <p class="text-center mt-3">
+              Seidauk rejistu? <a href="/rejistu">Rejistu Agora</a>
+            </p>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>

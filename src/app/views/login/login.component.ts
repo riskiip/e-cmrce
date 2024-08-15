@@ -1,59 +1,59 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../layout/header/auth.service';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { AuthService } from "../../layout/header/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email: string = "";
+  password: string = "";
 
-  constructor(private authService: AuthService, private router: Router) { }
-  
-  signIn(email: string, password: string) {
-    this.authService.signIn(email, password)
-      .then((result) => {
-        console.log('Signed in successfully:', result);
-        this.router.navigate(['/companypfe'])
-      })
-      .catch((error) => {
-        console.error('Sign in error:', error);
-        console.log('Sign in error:', error);
-      }); 
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  signUp() {
-    this.authService.signUp(this.email, this.password)
-      .then(result => {
-        console.log('Signed up successfully:', result);
-      })
-      .catch(error => {
-        console.log('Sign up error:', error);
-      });
+  signIn() {
+    const formData: FormData = new FormData();
+    formData.append("username", this.email);
+    formData.append("password", this.password);
+
+    this.authService.signIn(formData).subscribe({
+      next: (response) => {
+        if (response) {
+          console.log(response);
+          alert("Login success");
+          this.router.navigate(["/"]);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        alert("Login failed");
+      },
+    });
   }
 
   googleSignIn() {
-    this.authService.googleSignIn()
-      .then(result => {
-        console.log('Signed in with Google:', result);
+    this.authService
+      .googleSignIn()
+      .then((result) => {
+        console.log("Signed in with Google:", result);
         // Redirect ke halaman "companypfe" setelah login berhasil
-        this.router.navigate(['/companypfe']);
+        this.router.navigate(["/companypfe"]);
       })
-      .catch(error => {
-        console.log('Google sign in error:', error);
+      .catch((error) => {
+        console.log("Google sign in error:", error);
       });
-  } 
+  }
 
   signOut() {
-    this.authService.signOut()
+    this.authService
+      .signOut()
       .then(() => {
-        console.log('Signed out successfully');
+        console.log("Signed out successfully");
       })
-      .catch(error => {
-        console.log('Sign out error:', error);
+      .catch((error) => {
+        console.log("Sign out error:", error);
       });
   }
 

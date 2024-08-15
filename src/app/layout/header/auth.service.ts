@@ -1,37 +1,38 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { GoogleAuthProvider } from "firebase/auth";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth) { }
+  apiUrl = "https://backendecomerce.apps06.tic.gov.tl/api/vizitor";
+
+  constructor(private afAuth: AngularFireAuth, private http: HttpClient) {}
 
   getUserName(): Observable<string | null> {
     return this.afAuth.authState.pipe(
-      map(user => user ? user.displayName : null)
+      map((user) => (user ? user.displayName : null))
     );
   }
 
   getUserId(): Observable<string | null> {
-    return this.afAuth.authState.pipe(
-      map(user => user ? user.uid : null)
-    );
+    return this.afAuth.authState.pipe(map((user) => (user ? user.uid : null)));
   }
 
-  login(email: string, password: string): Promise<any> { 
+  login(email: string, password: string): Promise<any> {
     return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  signIn(email: string, password: string) {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
+  signIn(data: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "/login/", data);
   }
 
-  signUp(email: string, password: string): Promise<any> {
-    return this.afAuth.createUserWithEmailAndPassword(email, password);
+  signUp(data: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "/utilizador/", data);
   }
 
   googleSignIn() {
@@ -47,8 +48,6 @@ export class AuthService {
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      map(user => !!user)
-    );
+    return this.afAuth.authState.pipe(map((user) => !!user));
   }
 }
