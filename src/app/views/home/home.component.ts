@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     localStorage.removeItem("detailProduct");
     localStorage.removeItem("categorySelected");
+    localStorage.removeItem("searchProduct");
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
     }

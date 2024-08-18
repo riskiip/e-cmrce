@@ -22,8 +22,9 @@ import { HomeComponent } from "./views/home/home.component";
 import { LoginComponent } from "./views/login/login.component";
 import { PublisidadeComponent } from "./views/publisidade/publisidade.component";
 import { RejistuComponent } from "./views/rejistu/rejistu.component";
-import { SubcatgoryComponent } from './views/subcatgory/subcatgory.component';
-import { SubcategoryChipComponent } from './shared/subcategory-chip/subcategory-chip.component';
+import { SubcatgoryComponent } from "./views/subcatgory/subcatgory.component";
+import { SubcategoryChipComponent } from "./shared/subcategory-chip/subcategory-chip.component";
+import { LoaderComponent } from "./shared/loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SubcategoryChipComponent } from './shared/subcategory-chip/subcategory-
     ProductCardComponent,
     SubcatgoryComponent,
     SubcategoryChipComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

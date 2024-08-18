@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
 import { HeaderService } from "./header.service";
@@ -9,7 +9,7 @@ import { take } from "rxjs";
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
   item = "";
 
   userName: string | null = null;
@@ -18,20 +18,18 @@ export class HeaderComponent implements OnInit {
     public auth: AngularFireAuth,
     private router: Router,
     private headerService: HeaderService
-  ) {}
-
-  navigateToSearchResult(): void {
-    this.router.navigate(["/search-result"]);
+  ) {
+    this.userName = sessionStorage.getItem("emailUser");
   }
 
-  ngOnInit(): void {
-    this.auth.authState.subscribe((user) => {
-      if (user) {
-        this.userName = user.displayName;
-      } else {
-        this.userName = null;
-      }
-    });
+  navigateToSearchResult(): void {}
+
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes) {
+      console.log(changes);
+    }
   }
 
   redirectToProfilePage(): void {
@@ -52,23 +50,21 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.auth
-      .signOut()
-      .then(() => {
-        console.log("User signed out successfully.");
-        this.router.navigate(["/login"]);
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-      });
+    sessionStorage.removeItem("emailUser");
+    sessionStorage.removeItem("user");
+    window.location.reload();
   }
 
   searchProduct() {
     this.headerService
-      .searchProduct(this.item, 1)
+      .searchProduct(this.item, 2)
       .pipe(take(1))
       .subscribe((value) => {
         console.log(value);
+        if (value.count !== 0) {
+          localStorage.setItem("searchProduct", JSON.stringify(value));
+          this.router.navigate(["/search-result"]);
+        }
       });
   }
 }

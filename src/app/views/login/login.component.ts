@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectorRef, Component } from "@angular/core";
 import { AuthService } from "../../layout/header/auth.service";
 import { Router } from "@angular/router";
 
@@ -8,12 +8,18 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent {
+  showLoader = false;
   email: string = "";
   password: string = "";
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   signIn() {
+    this.showLoader = true;
     const formData: FormData = new FormData();
     formData.append("username", this.email);
     formData.append("password", this.password);
@@ -22,13 +28,33 @@ export class LoginComponent {
       next: (response) => {
         if (response) {
           console.log(response);
-          alert("Login success");
-          this.router.navigate(["/"]);
+          let emailUser = response.username;
+          this.getAllUser(emailUser);
         }
       },
       error: (error) => {
         console.log(error);
         alert("Login failed");
+      },
+    });
+  }
+
+  getAllUser(email: string) {
+    this.authService.getAllUser(email).subscribe({
+      next: (response) => {
+        if (response) {
+          console.log(response.results);
+          let user = response.results.filter(
+            (data: { email: string }) => data.email === "reza_admin@gmail.com"
+          );
+          sessionStorage.setItem("emailUser", email);
+          sessionStorage.setItem("user", JSON.stringify(user));
+          alert("Login success");
+          this.router.navigate(["/"]);
+        }
+      },
+      complete: () => {
+        this.showLoader = false;
       },
     });
   }

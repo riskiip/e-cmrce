@@ -13,6 +13,10 @@ export class AuthService {
 
   constructor(private afAuth: AngularFireAuth, private http: HttpClient) {}
 
+  getAllUser(email: string | null): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/utilizador/?email=${email}`);
+  }
+
   getUserName(): Observable<string | null> {
     return this.afAuth.authState.pipe(
       map((user) => (user ? user.displayName : null))

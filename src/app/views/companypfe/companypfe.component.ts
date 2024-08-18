@@ -1,44 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../layout/header/auth.service';
-import { ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../../layout/header/auth.service";
+import { ChangeDetectorRef } from "@angular/core";
 
 @Component({
-  selector: 'app-companypfe',
-  templateUrl: './companypfe.component.html',
-  styleUrls: ['./companypfe.component.scss']
+  selector: "app-companypfe",
+  templateUrl: "./companypfe.component.html",
+  styleUrls: ["./companypfe.component.scss"],
 })
 export class CompanypfeComponent implements OnInit {
   userName: string | null = null;
   userId: string | null = null;
-  profileUserId: string = 'someProfileUserId'; 
-  cardOwnerId: string = 'someCardOwnerId'; 
+  profileUserId: string = "someProfileUserId";
+  cardOwnerId: string = "someCardOwnerId";
   showPostoadministrativu: boolean = false;
   postoadministrativu: any[] = [];
   isLoggedIn: boolean = false;
   isModalOpen = false;
-  profileImageSrc: string = 'https://bootdey.com/img/Content/avatar/avatar7.png';
+  profileImageSrc: string =
+    "https://bootdey.com/img/Content/avatar/avatar7.png";
 
-  constructor(private authService: AuthService, private cdr: ChangeDetectorRef) { }
+  userProfile!: any;
+  objUser!: any;
+
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    this.userProfile = sessionStorage.getItem("user");
+    this.objUser = JSON.parse(this.userProfile)[0];
+    this.profileImageSrc = this.objUser.image;
+    console.log(this.objUser);
     this.updateLoginStatus();
     window.scrollTo(0, 0);
 
-    this.authService.getUserName().subscribe(userName => {
-      this.userName = userName
-      this.cdr.detectChanges(); 
+    this.authService.getUserName().subscribe((userName) => {
+      this.userName = userName;
+      this.cdr.detectChanges();
     });
 
-    this.authService.getUserId().subscribe(userId => {
+    this.authService.getUserId().subscribe((userId) => {
       this.userId = userId;
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     });
   }
 
   updateLoginStatus(): void {
-    this.authService.isLoggedIn().subscribe(isLoggedIn => {
+    this.authService.isLoggedIn().subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     });
   }
 
@@ -49,7 +60,7 @@ export class CompanypfeComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         this.profileImageSrc = reader.result as string;
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(file);
     }
@@ -59,7 +70,7 @@ export class CompanypfeComponent implements OnInit {
     if (this.isLoggedIn) {
       this.isModalOpen = true;
     } else {
-      console.log('User is not logged in. Cannot open modal.');
+      console.log("User is not logged in. Cannot open modal.");
     }
   }
 
@@ -71,18 +82,42 @@ export class CompanypfeComponent implements OnInit {
     const selectedLocation = event.target.value;
     this.postoadministrativu = [];
 
-    if (selectedLocation === 'location') {
-      this.addPostoadministrativuOption('Postoadministrativu 1', 'postoadministrativu1');
-      this.addPostoadministrativuOption('Postoadministrativu 2', 'postoadministrativu2');
-    } else if (selectedLocation === 'location1') {
-      this.addPostoadministrativuOption('Postoadministrativu 1', 'postoadministrativu1');
-      this.addPostoadministrativuOption('Postoadministrativu 2', 'postoadministrativu2');
-    } else if (selectedLocation === 'location2') {
-      this.addPostoadministrativuOption('Postoadministrativu 1', 'postoadministrativu1');
-      this.addPostoadministrativuOption('Postoadministrativu 2', 'postoadministrativu2');
-    } else if (selectedLocation === 'location3') {
-      this.addPostoadministrativuOption('Postoadministrativu 3', 'postoadministrativu1');
-      this.addPostoadministrativuOption('Postoadministrativu 4', 'postoadministrativu2');
+    if (selectedLocation === "location") {
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 1",
+        "postoadministrativu1"
+      );
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 2",
+        "postoadministrativu2"
+      );
+    } else if (selectedLocation === "location1") {
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 1",
+        "postoadministrativu1"
+      );
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 2",
+        "postoadministrativu2"
+      );
+    } else if (selectedLocation === "location2") {
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 1",
+        "postoadministrativu1"
+      );
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 2",
+        "postoadministrativu2"
+      );
+    } else if (selectedLocation === "location3") {
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 3",
+        "postoadministrativu1"
+      );
+      this.addPostoadministrativuOption(
+        "Postoadministrativu 4",
+        "postoadministrativu2"
+      );
     }
 
     this.showPostoadministrativu = true;
