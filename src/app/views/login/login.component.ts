@@ -33,7 +33,6 @@ export class LoginComponent {
         }
       },
       error: (error) => {
-        console.log(error);
         alert("Login failed");
       },
       complete: () => {
@@ -46,12 +45,10 @@ export class LoginComponent {
     this.authService
       .googleSignIn()
       .then((result) => {
-        console.log("Signed in with Google:", result);
         // Redirect ke halaman "companypfe" setelah login berhasil
         this.router.navigate(["/companypfe"]);
       })
       .catch((error) => {
-        console.log("Google sign in error:", error);
       });
   }
 
@@ -59,10 +56,8 @@ export class LoginComponent {
     this.authService
       .signOut()
       .then(() => {
-        console.log("Signed out successfully");
       })
       .catch((error) => {
-        console.log("Sign out error:", error);
       });
   }
 

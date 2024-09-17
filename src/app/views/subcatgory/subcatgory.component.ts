@@ -33,7 +33,6 @@ export class SubcatgoryComponent implements OnInit {
       (data) => data.subkategoria.naran === event
     );
     this.showProduct = true;
-    console.log(this.filterProductSubCategory);
   }
 
   onBackClick() {
