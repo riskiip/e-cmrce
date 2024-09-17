@@ -16,6 +16,5 @@ export class SearchResultComponent implements OnInit {
   ngOnInit(): void {
     this.detailProductString = localStorage.getItem("searchProduct");
     this.detailProductObj = JSON.parse(this.detailProductString);
-    console.log(this.detailProductObj);
   }
 }

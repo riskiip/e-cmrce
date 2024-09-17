@@ -63,13 +63,11 @@ export class RejistuComponent implements OnInit {
     this.authService.signUp(formData).subscribe({
       next: (response) => {
         if (response) {
-          console.log(response);
           alert("Registration success");
           this.router.navigate(["/login"]);
         }
       },
       error: (error) => {
-        console.log(error);
         alert("Registration failed");
       },
     });
@@ -77,7 +75,6 @@ export class RejistuComponent implements OnInit {
     // this.authService
     //   .signUp(this.email, this.password)
     //   .then(() => {
-    //     console.log("Rejistu susesu!");
     //     alert("Rejistu susesu!");
     //     this.router.navigate(["/companypfe"]);
     //   })

@@ -38,7 +38,6 @@ export class OneSignalService {
     if (isPlatformBrowser(this.platformId)) {
       this.oneSignal.push(() => {
         this.oneSignal.getUserId((userId: any) => {
-          console.log('User ID:', userId);
         });
       });
     }

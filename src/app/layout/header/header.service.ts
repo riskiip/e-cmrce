@@ -13,7 +13,6 @@ export class HeaderService {
 
   searchProduct(item: string, munisipiuId: number): Observable<any> {
     let removeSpaceFromItem = item.split(" ").join("%20");
-    console.log(removeSpaceFromItem);
     return this.http
       .get<any>(this.apiUrl + removeSpaceFromItem + "&munisipiu=" + munisipiuId)
       .pipe(catchError(this.handleError));

@@ -27,35 +27,18 @@ export class LoginComponent {
     this.authService.signIn(formData).subscribe({
       next: (response) => {
         if (response) {
-          console.log(response);
-          let emailUser = response.username;
-          this.getAllUser(emailUser);
+          sessionStorage.setItem("emailUser", response.username);
+          alert("Login success");
+          this.router.navigate(["/"]);
         }
       },
       error: (error) => {
         console.log(error);
         alert("Login failed");
       },
-    });
-  }
-
-  getAllUser(email: string) {
-    this.authService.getAllUser(email).subscribe({
-      next: (response) => {
-        if (response) {
-          console.log(response.results);
-          let user = response.results.filter(
-            (data: { email: string }) => data.email === "reza_admin@gmail.com"
-          );
-          sessionStorage.setItem("emailUser", email);
-          sessionStorage.setItem("user", JSON.stringify(user));
-          alert("Login success");
-          this.router.navigate(["/"]);
-        }
-      },
       complete: () => {
         this.showLoader = false;
-      },
+      }
     });
   }
 

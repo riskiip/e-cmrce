@@ -114,7 +114,6 @@ export class HomeComponent implements OnInit {
       "categorySelected",
       JSON.stringify(this.categoryProducts)
     );
-    console.log(this.categoryProducts);
   }
 
   showAllCategoryProduct() {
