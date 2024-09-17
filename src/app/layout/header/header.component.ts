@@ -1,6 +1,7 @@
 import {
   Component,
   DoCheck,
+  HostListener,
   OnChanges,
   OnInit,
   SimpleChanges,
@@ -9,6 +10,8 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
 import { HeaderService } from "./header.service";
 import { take } from "rxjs";
+import { Munisipiu } from "../../models/publisidadeDto";
+import { ProductService } from "../../views/home/product.service";
 
 @Component({
   selector: "app-header",
@@ -16,6 +19,18 @@ import { take } from "rxjs";
   styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit, DoCheck {
+  page = 1;
+  isLoading = false;
+  formData: any = {
+    munisipiu: "",
+  };
+  // Constrcuct locations
+  locations: Munisipiu[] = [
+    {
+      id: 0,
+      naran: "",
+    },
+  ];
   item = "";
 
   userName: string | null = null;
@@ -23,15 +38,37 @@ export class HeaderComponent implements OnInit, DoCheck {
   constructor(
     public auth: AngularFireAuth,
     private router: Router,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private productService: ProductService
   ) {}
 
   navigateToSearchResult(): void {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadItems();
+  }
 
   ngDoCheck(): void {
     this.userName = sessionStorage.getItem("emailUser");
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  onWindowScroll(event: any) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !this.isLoading
+    ) {
+      this.loadItems();
+    }
+  }
+
+  loadItems() {
+    this.isLoading = true;
+    this.productService.getMunisipiu(this.page).subscribe((items) => {
+      this.locations.push(...items.results);
+      this.page++;
+      this.isLoading = false;
+    });
   }
 
   redirectToProfilePage(): void {
@@ -56,7 +93,7 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   searchProduct() {
     this.headerService
-      .searchProduct(this.item, 2)
+      .searchProduct(this.item, this.formData.munisipiu)
       .pipe(take(1))
       .subscribe((value) => {
         if (value.count !== 0) {
