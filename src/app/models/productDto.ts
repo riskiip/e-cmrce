@@ -7,7 +7,7 @@ export interface Product {
   datapublika: string;
   telemovel: string;
   status: string;
-  imagem: string;
+  imagem: Imagem[];
   deskrisaun: string;
   kategoria: Kategoria;
   subkategoria: Subkategoria;
@@ -17,4 +17,9 @@ export interface Product {
   subkategoria_id: number;
   munisipiu_id: number;
   postu_id: number;
+}
+
+export interface Imagem {
+  id: number;
+  image: string;
 }

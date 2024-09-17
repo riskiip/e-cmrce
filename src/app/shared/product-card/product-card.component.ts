@@ -16,7 +16,12 @@ export class ProductCardComponent {
       datapublika: "",
       telemovel: "",
       status: "",
-      imagem: "",
+      imagem: [
+        {
+          id: 0,
+          image: ""
+        }
+      ],
       deskrisaun: "",
       kategoria: {
         id: 0,
