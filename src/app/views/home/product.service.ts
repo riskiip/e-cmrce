@@ -35,8 +35,8 @@ export class ProductService {
     return this.http.get<any>(this.apiUrl + "/subkategoria/");
   }
 
-  getMunisipiu(): Observable<any> {
-    return this.http.get<any>(this.apiUrl + "/munisipiu/");
+  getMunisipiu(page: number): Observable<any> {
+    return this.http.get<any>(this.apiUrl + `/munisipiu/?page=${page}`);
   }
 
   getPostu(): Observable<any> {

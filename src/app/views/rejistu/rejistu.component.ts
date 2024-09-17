@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { AuthService } from "../../layout/header/auth.service";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -12,6 +12,9 @@ import { Munisipiu } from "../../models/publisidadeDto";
   styleUrl: "./rejistu.component.scss",
 })
 export class RejistuComponent implements OnInit {
+  page = 1;
+  isLoading = false;
+
   naran: string = "";
   naranEmprezariu: string = "";
   munisipiuRejistu: string = "";
@@ -38,11 +41,26 @@ export class RejistuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    forkJoin([this.productService.getMunisipiu()])
-      .pipe(take(1))
-      .subscribe((response) => {
-        this.locations = response[0].results;
-      });
+    this.loadItems();
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  onWindowScroll(event: any) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !this.isLoading
+    ) {
+      this.loadItems();
+    }
+  }
+
+  loadItems() {
+    this.isLoading = true;
+    this.productService.getMunisipiu(this.page).subscribe((items) => {
+      this.locations.push(...items.results);
+      this.page++;
+      this.isLoading = false;
+    });
   }
 
   onFileSelected(event: any) {
@@ -71,16 +89,5 @@ export class RejistuComponent implements OnInit {
         alert("Registration failed");
       },
     });
-
-    // this.authService
-    //   .signUp(this.email, this.password)
-    //   .then(() => {
-    //     alert("Rejistu susesu!");
-    //     this.router.navigate(["/companypfe"]);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Registrasi falha:", error.message);
-    //     alert("Rejistu falha: " + error.message);
-    //   });
   }
 }

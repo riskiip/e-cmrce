@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { forkJoin, take } from "rxjs";
 import {
@@ -16,6 +16,9 @@ import dayjs from "dayjs";
   styleUrls: ["./publisidade.component.scss"],
 })
 export class PublisidadeComponent implements OnInit {
+  page = 1;
+  isLoading = false;
+
   // Construct formData object
   formData: any = {
     titlu: "",
@@ -88,19 +91,37 @@ export class PublisidadeComponent implements OnInit {
   constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
+    this.loadItems();
     forkJoin([
       this.productService.getKategoria(),
       this.productService.getSubKategoria(),
-      this.productService.getMunisipiu(),
       this.productService.getPostu(),
     ])
       .pipe(take(1))
       .subscribe((response) => {
-        this.categories = response[0].results;
+        this.categories = response[0];
         this.subCategories = response[1].results;
-        this.locations = response[2].results;
-        this.postoadministrativu = response[3].results;
+        this.postoadministrativu = response[2].results;
       });
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  onWindowScroll(event: any) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !this.isLoading
+    ) {
+      this.loadItems();
+    }
+  }
+
+  loadItems() {
+    this.isLoading = true;
+    this.productService.getMunisipiu(this.page).subscribe((items) => {
+      this.locations.push(...items.results);
+      this.page++;
+      this.isLoading = false;
+    });
   }
 
   onFileSelected(event: any) {
