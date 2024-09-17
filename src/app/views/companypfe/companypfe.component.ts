@@ -31,7 +31,6 @@ export class CompanypfeComponent implements OnInit {
     this.userProfile = sessionStorage.getItem("user");
     this.objUser = JSON.parse(this.userProfile)[0];
     this.profileImageSrc = this.objUser.image;
-    console.log(this.objUser);
     this.updateLoginStatus();
     window.scrollTo(0, 0);
 
@@ -69,8 +68,6 @@ export class CompanypfeComponent implements OnInit {
   openModal() {
     if (this.isLoggedIn) {
       this.isModalOpen = true;
-    } else {
-      console.log("User is not logged in. Cannot open modal.");
     }
   }
 
