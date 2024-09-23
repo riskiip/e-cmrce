@@ -23,6 +23,10 @@ export class AuthService {
     );
   }
 
+  getProductByProfile(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/produtu/?utilizador=${userId}`);
+  }
+
   getUserId(): Observable<string | null> {
     return this.afAuth.authState.pipe(map((user) => (user ? user.uid : null)));
   }

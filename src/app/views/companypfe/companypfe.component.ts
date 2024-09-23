@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../layout/header/auth.service";
 import { ChangeDetectorRef } from "@angular/core";
+import { take } from "rxjs";
+import { Product } from "../../models/productDto";
 
 @Component({
   selector: "app-companypfe",
@@ -22,15 +24,63 @@ export class CompanypfeComponent implements OnInit {
   userProfile!: any;
   objUser!: any;
 
+  productsByUser: Product[] = [
+    {
+      id: 0,
+      titlu: "",
+      presu: "",
+      datapublika: "",
+      telemovel: "",
+      status: "",
+      imagem: [
+        {
+          id: 0,
+          image: "",
+        },
+      ],
+      deskrisaun: "",
+      kategoria: {
+        id: 0,
+        naran: "",
+      },
+      subkategoria: {
+        id: 0,
+        naran: "",
+        kategoria: {
+          id: 0,
+          naran: "",
+        },
+        kategoria_id: 0,
+      },
+      munisipiu: {
+        id: 0,
+        naran: "",
+      },
+      postu: {
+        id: 0,
+        naran: "",
+        munisipiu: {
+          id: 0,
+          naran: "",
+        },
+        munisipiu_id: 0,
+      },
+      kategoria_id: 0,
+      subkategoria_id: 0,
+      munisipiu_id: 0,
+      postu_id: 0,
+    },
+  ];
+  totalProducts = 0;
+  showLoader = true;
+
   constructor(
     private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.userProfile = sessionStorage.getItem("user");
-    this.objUser = JSON.parse(this.userProfile)[0];
-    this.profileImageSrc = this.objUser.image;
+    this.inquiryProductByUser();
     this.updateLoginStatus();
     window.scrollTo(0, 0);
 
@@ -43,6 +93,23 @@ export class CompanypfeComponent implements OnInit {
       this.userId = userId;
       this.cdr.detectChanges();
     });
+  }
+
+  inquiryProductByUser() {
+    this.userProfile = sessionStorage.getItem("user");
+    this.objUser = JSON.parse(this.userProfile);
+    this.profileImageSrc = this.objUser.image;
+    let userId = this.objUser.id;
+    this.authService
+      .getProductByProfile(3)
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.productsByUser = res.results;
+          this.totalProducts = this.productsByUser.length;
+        }
+      });
+    this.showLoader = false;
   }
 
   updateLoginStatus(): void {

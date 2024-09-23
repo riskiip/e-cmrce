@@ -1,17 +1,10 @@
-import {
-  Component,
-  DoCheck,
-  HostListener,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, DoCheck, HostListener, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
-import { HeaderService } from "./header.service";
 import { take } from "rxjs";
 import { Munisipiu } from "../../models/publisidadeDto";
 import { ProductService } from "../../views/home/product.service";
+import { HeaderService } from "./header.service";
 
 @Component({
   selector: "app-header",

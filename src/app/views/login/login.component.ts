@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { AuthService } from "../../layout/header/auth.service";
 import { Router } from "@angular/router";
+import { take } from "rxjs";
 
 @Component({
   selector: "app-login",
@@ -28,8 +29,7 @@ export class LoginComponent {
       next: (response) => {
         if (response) {
           sessionStorage.setItem("emailUser", response.username);
-          alert("Login success");
-          this.router.navigate(["/"]);
+          this.getAllUser(response.username);
         }
       },
       error: (error) => {
@@ -37,8 +37,23 @@ export class LoginComponent {
       },
       complete: () => {
         this.showLoader = false;
-      }
+      },
     });
+  }
+
+  getAllUser(email: string) {
+    this.authService
+      .getAllUser(email)
+      .pipe(take(1))
+      .subscribe((value) => {
+        let profile: any;
+        profile = value.results.filter(
+          (profile: any) => profile.naran === email
+        );
+        sessionStorage.setItem("user", JSON.stringify(profile[0]));
+        alert("Login success");
+        this.router.navigate(["/"]);
+      });
   }
 
   googleSignIn() {
@@ -48,17 +63,14 @@ export class LoginComponent {
         // Redirect ke halaman "companypfe" setelah login berhasil
         this.router.navigate(["/companypfe"]);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   }
 
   signOut() {
     this.authService
       .signOut()
-      .then(() => {
-      })
-      .catch((error) => {
-      });
+      .then(() => {})
+      .catch((error) => {});
   }
 
   onSubmit() {
