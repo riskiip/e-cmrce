@@ -101,7 +101,7 @@ export class CompanypfeComponent implements OnInit {
     this.profileImageSrc = this.objUser.image;
     let userId = this.objUser.id;
     this.authService
-      .getProductByProfile(3)
+      .getProductByProfile(userId)
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
